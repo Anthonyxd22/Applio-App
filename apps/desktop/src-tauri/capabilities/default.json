@@ -15,8 +15,10 @@
     "core:window:allow-set-effects",
     "core:window:allow-destroy",
     "store:allow-get",
+    "store:allow-create-store",
     "store:allow-set",
     "shell:allow-open",
-    "shell:default"
+    "shell:default",
+    "store:default"
   ]
 }
