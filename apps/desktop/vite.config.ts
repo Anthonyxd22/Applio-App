@@ -12,7 +12,7 @@ export default defineConfig({
     host: host || false,
     port: 1420,
     watch: {
-      ignored: ["**/python/**"]
+      ignored: ["**/python/**", "**/rvc-cli-main/**", "**/rvc/**", "**/logs/**", "**/audios/**"]
     }
   },
   // to access the Tauri environment variables set by the CLI with information about the current target
