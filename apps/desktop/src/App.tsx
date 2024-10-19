@@ -60,6 +60,7 @@ function App() {
 
     if (!initialized) {
       localStorage.setItem('appInitialized', 'true');
+      checkUpdates();
     }
   }, []);
 
@@ -83,7 +84,6 @@ function App() {
     }
 
     checkFirstRun();
-    checkUpdates();
     setWindowEffect();
     initializeDiscordRpc();
   }, []);
