@@ -2,7 +2,7 @@
   "name": "applio-app-monorepo",
   "private": true,
   "scripts": {
-    "build": "turbo build",
+    "build": "cd apps/desktop && pnpm tauri build && copy src-tauri\\target\\release\\applio-app.exe ..\\..\\build\\applio-app.exe && cd ..\\server && pyinstaller --onefile --icon=logo.ico --noconsole server.py && copy dist\\server.exe ..\\..\\build\\server.exe",
     "dev": "turbo dev",
     "lint": "turbo lint",
     "desktop": "pnpm --filter desktop --",
