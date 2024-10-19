@@ -73,7 +73,7 @@ def load_commit_info():
     version_file_path = os.path.abspath(os.path.join(os.getcwd(), 'version.json'))
     logging.info(f"Loading commit info from {version_file_path}")
     if not os.path.exists(version_file_path):
-        logging.info("No commit info found. Downloading RVC repository from GitHub...")
+        logging.info("No commit info found.")
         return None
     with open(version_file_path, 'r') as version_file:
         data = json.load(version_file)
