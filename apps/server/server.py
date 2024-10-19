@@ -8,9 +8,9 @@ import logging
 import re
 import subprocess
 import json
-import sys
 import signal
 import threading
+from requests.exceptions import HTTPError
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
@@ -38,10 +38,27 @@ def remove_ansi_escape_sequences(log_line):
 # get latest commit hash
 def get_latest_commit_hash():
     api_url = "https://api.github.com/repos/blaisewf/rvc-cli/commits/main"
-    response = requests.get(api_url)
-    response.raise_for_status()
-    commit_data = response.json()
-    return commit_data['sha']
+    
+    try:
+        response = requests.get(api_url)
+        response.raise_for_status() 
+
+        if response.status_code == 403 and "X-RateLimit-Remaining" in response.headers and response.headers["X-RateLimit-Remaining"] == "0":
+            reset_time = response.headers.get("X-RateLimit-Reset")
+            return {
+                "error": "Rate limit exceeded. Please try again later.",
+                "reset_time": reset_time
+            }
+
+        commit_data = response.json()
+        return {"commit_hash": commit_data['sha']}
+    
+    except HTTPError as http_err:
+        return {"error": f"HTTP error occurred: {http_err}"}
+    
+    except Exception as err:
+        return {"error": f"An error occurred: {err}"}
+
 
 # save last commit hash to version.json
 def save_commit_info(commit_hash):
